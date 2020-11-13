@@ -191,6 +191,11 @@
 
 - (void)drawRect:(CGRect)dirtyRect
 {
+    [self performSelectorOnMainThread:@selector(doDrawing) withObject:nil waitUntilDone:YES];
+}
+
+- (void)doDrawing
+{
     if (self.shortcutValue) {
         [self drawInRect:self.bounds withTitle:MASShortcutChar(self.recording ? kMASShortcutGlyphEscape : kMASShortcutGlyphDeleteLeft)
                alignment:NSRightTextAlignment state:NSOffState];
