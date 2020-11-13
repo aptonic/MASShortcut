@@ -211,44 +211,43 @@ static const CGFloat MASButtonFontSize = 11;
 
 - (void)drawRect:(CGRect)dirtyRect
 {
+    [self performSelectorOnMainThread:@selector(doDrawing) withObject:nil waitUntilDone:YES];
+}
+
+- (void)doDrawing
+{
     if (self.shortcutValue) {
-        NSString *buttonTitle;
-        if (self.recording) {
-            buttonTitle = NSStringFromMASKeyCode(kMASShortcutGlyphEscape);
-        } else if (self.showsDeleteButton) {
-            buttonTitle = NSStringFromMASKeyCode(kMASShortcutGlyphClear);
-        }
-        if (buttonTitle != nil) {
-            [self drawInRect:self.bounds withTitle:buttonTitle alignment:NSRightTextAlignment state:NSOffState];
-        }
+        [self drawInRect:self.bounds withTitle:MASShortcutChar(self.recording ? kMASShortcutGlyphEscape : kMASShortcutGlyphDeleteLeft)
+               alignment:NSRightTextAlignment state:NSOffState];
+        
         CGRect shortcutRect;
         [self getShortcutRect:&shortcutRect hintRect:NULL];
         NSString *title = (self.recording
                            ? (_hinting
-                              ? MASLocalizedString(@"Use Old Shortcut", @"Cancel action button for non-empty shortcut in recording state")
+                              ? NSLocalizedString(@"Use Old Shortcut", @"Cancel action button for non-empty shortcut in recording state")
                               : (self.shortcutPlaceholder.length > 0
                                  ? self.shortcutPlaceholder
-                                 : MASLocalizedString(@"Type New Shortcut", @"Non-empty shortcut button in recording state")))
+                                 : NSLocalizedString(@"Type New Shortcut", @"Non-empty shortcut button in recording state")))
                            : _shortcutValue ? _shortcutValue.description : @"");
         [self drawInRect:shortcutRect withTitle:title alignment:NSCenterTextAlignment state:self.isRecording ? NSOnState : NSOffState];
     }
     else {
         if (self.recording)
         {
-            [self drawInRect:self.bounds withTitle:NSStringFromMASKeyCode(kMASShortcutGlyphEscape) alignment:NSRightTextAlignment state:NSOffState];
+            [self drawInRect:self.bounds withTitle:MASShortcutChar(kMASShortcutGlyphEscape) alignment:NSRightTextAlignment state:NSOffState];
             
             CGRect shortcutRect;
             [self getShortcutRect:&shortcutRect hintRect:NULL];
             NSString *title = (_hinting
-                               ? MASLocalizedString(@"Cancel", @"Cancel action button in recording state")
+                               ? NSLocalizedString(@"Cancel", @"Cancel action button in recording state")
                                : (self.shortcutPlaceholder.length > 0
                                   ? self.shortcutPlaceholder
-                                  : MASLocalizedString(@"Type Shortcut", @"Empty shortcut button in recording state")));
+                                  : NSLocalizedString(@"Type Shortcut", @"Empty shortcut button in recording state")));
             [self drawInRect:shortcutRect withTitle:title alignment:NSCenterTextAlignment state:NSOnState];
         }
         else
         {
-            [self drawInRect:self.bounds withTitle:MASLocalizedString(@"Record Shortcut", @"Empty shortcut button in normal state")
+            [self drawInRect:self.bounds withTitle:NSLocalizedString(@"Record Shortcut", @"Empty shortcut button in normal state")
                    alignment:NSCenterTextAlignment state:NSOffState];
         }
     }
