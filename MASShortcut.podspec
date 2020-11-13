@@ -2,7 +2,7 @@ Pod::Spec.new do |s|
   s.platform              = :osx
   s.osx.deployment_target = "10.7"
   s.name	              = 'MASShortcut'
-  s.version               = '1.3.1'
+  s.version               = '1.3.2'
   s.summary               = 'Modern framework for managing global keyboard shortcuts compatible with Mac App Store'
   s.homepage              = 'https://github.com/shpakovski/MASShortcut'
   s.authors               = { 'Vadim Shpakovski' => 'vadim@shpakovski.com' }
